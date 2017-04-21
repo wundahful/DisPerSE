@@ -112,7 +112,7 @@ if(NOT NO_MATHGL)
 endif()
 
 if(NOT NO_QT)
-  FIND_PACKAGE(Qt5 REQUIRED COMPONENTS Core Widgets)
+  FIND_PACKAGE(Qt5 REQUIRED COMPONENTS Core Widgets GUI)
 endif()
 
 if (TR1_UNORDERED_MAP_FOUND)
@@ -318,7 +318,7 @@ else()
   message(STATUS "     Specify the path to mathGL with 'cmake [...] -DMATHGL_DIR=<PATH/TO/MATHGL>'.")
 endif()
 
-if (QT_FOUND)
+if (QT_FOUND OR QT5_FOUND OR Qt5Core_FOUND)
   message(STATUS "   * QT was found.")
 else()
   message(STATUS "   * Qt was NOT found.")
