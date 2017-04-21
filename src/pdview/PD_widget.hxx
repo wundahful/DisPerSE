@@ -56,9 +56,9 @@
 #include <algorithm>
 #include <limits>
 
-#include <mgl/mgl_qt.h>
-#include <mgl/mgl_data.h>
-#include <mgl/mgl.h>
+#include <mgl2/qt.h>
+#include <mgl2/data.h>
+#include <mgl2/mgl.h>
 
 #include "PD_params.hxx"
 

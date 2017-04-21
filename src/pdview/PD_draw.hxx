@@ -49,8 +49,8 @@
 
 #include <string>
 
-#include <mgl/mgl.h>
-#include <mgl/mgl_data.h>
+#include <mgl2/mgl.h>
+#include <mgl2/data.h>
 
 #include <algorithm>
 #include "PD_params.hxx"
