@@ -6,12 +6,12 @@
 #
 # The following variables will be defined for your use:
 #
-#  MATHGL_FOUND           = MathGL and all specified components found
-#  MATHGL_INCLUDE_DIRS    = The MathGL include directories
-#  MATHGL_LIBRARIES       = The libraries to link against to use MathGL
+#  MATHGL2_FOUND           = MathGL and all specified components found
+#  MATHGL2_INCLUDE_DIRS    = The MathGL include directories
+#  MATHGL2_LIBRARIES       = The libraries to link against to use MathGL
 #                           and all specified components
-#  MATHGL_VERSION_STRING  = A human-readable version of the MathGL (e.g. 1.11)
-#  MATHGL_XXX_FOUND       = Component XXX found (replace XXX with uppercased
+#  MATHGL2_VERSION_STRING  = A human-readable version of the MathGL (e.g. 1.11)
+#  MATHGL2_XXX_FOUND       = Component XXX found (replace XXX with uppercased
 #                           component name -- for example, QT or FLTK)
 #
 # The minimum required version and needed components can be specified using
@@ -23,9 +23,9 @@
 #
 # Typical usage could be something like this:
 #   find_package(MathGL 1.11 GLUT REQUIRED)
-#   include_directories(${MATHGL_INCLUDE_DIRS})
+#   include_directories(${MATHGL2_INCLUDE_DIRS})
 #   add_executable(myexe main.cpp)
-#   target_link_libraries(myexe ${MATHGL_LIBRARIES})
+#   target_link_libraries(myexe ${MATHGL2_LIBRARIES})
 #
 
 #=============================================================================
@@ -39,45 +39,45 @@
 # See the License for more information.
 #=============================================================================
 
-FIND_PATH(MATHGL_INCLUDE_DIR
+FIND_PATH(MATHGL2_INCLUDE_DIR
   NAMES mgl2/mgl.h 
-  PATHS ${MATHGL_DIR}/include/
+  PATHS ${MATHGL2_DIR}/include/
   NO_DEFAULT_PATH
   )
 
-FIND_PATH(MATHGL_INCLUDE_DIR
+FIND_PATH(MATHGL2_INCLUDE_DIR
           NAMES mgl2/mgl.h 
-	  PATHS ${MATHGL_DIR}/include/
+	  PATHS ${MATHGL2_DIR}/include/
           DOC "The MathGL include directory")
 
-FIND_LIBRARY(MATHGL_LIBRARY
+FIND_LIBRARY(MATHGL2_LIBRARY
              NAMES mgl
-             PATHS ${MATHGL_DIR}/include/
+             PATHS ${MATHGL2_DIR}/include/
              NO_DEFAULT_PATH)
 
-FIND_LIBRARY(MATHGL_LIBRARY
+FIND_LIBRARY(MATHGL2_LIBRARY
              NAMES mgl
-             PATHS ${MATHGL_DIR}/lib/ ${MATHGL_LIBRARY_DIR}
+             PATHS ${MATHGL2_DIR}/lib/ ${MATHGL2_LIBRARY_DIR}
              DOC "The MathGL LIBRARY directory")
 
-GET_FILENAME_COMPONENT(MATHGL_LIBRARY_DIR ${MATHGL_LIBRARY} PATH)
+GET_FILENAME_COMPONENT(MATHGL2_LIBRARY_DIR ${MATHGL2_LIBRARY} PATH)
 
-SET(MATHGL_LIBRARIES ${MATHGL_LIBRARY})
-SET(MATHGL_INCLUDE_DIRS ${MATHGL_INCLUDE_DIR})
+SET(MATHGL2_LIBRARIES ${MATHGL2_LIBRARY})
+SET(MATHGL2_INCLUDE_DIRS ${MATHGL2_INCLUDE_DIR})
 
-IF(MATHGL_INCLUDE_DIR)
+IF(MATHGL2_INCLUDE_DIR)
   SET(_CONFIG_FILE_NAME "mgl2/config.h")
-  SET(_CONFIG_FILE_PATH "${MATHGL_INCLUDE_DIR}/${_CONFIG_FILE_NAME}")
+  SET(_CONFIG_FILE_PATH "${MATHGL2_INCLUDE_DIR}/${_CONFIG_FILE_NAME}")
   SET(_VERSION_ERR "Cannot determine MathGL version")
   IF(EXISTS "${_CONFIG_FILE_PATH}")
     FILE(STRINGS "${_CONFIG_FILE_PATH}"
-         MATHGL_VERSION_STRING REGEX "^#define PACKAGE_VERSION \"[^\"]*\"$")
-    IF(MATHGL_VERSION_STRING)
+         MATHGL2_VERSION_STRING REGEX "^#define PACKAGE_VERSION \"[^\"]*\"$")
+    IF(MATHGL2_VERSION_STRING)
       STRING(REGEX
              REPLACE "^#define PACKAGE_VERSION \"([^\"]*)\"$" "\\1"
-             MATHGL_VERSION_STRING ${MATHGL_VERSION_STRING})
+             MATHGL2_VERSION_STRING ${MATHGL2_VERSION_STRING})
     ELSE()
-      SET(MATHGL_VERSION_STRING "2")
+      SET(MATHGL2_VERSION_STRING "2")
       #MESSAGE(FATAL_ERROR "${_VERSION_ERR}: ${_CONFIG_FILE_NAME} parse error")
     ENDIF()
   ELSE()
@@ -87,37 +87,38 @@ ENDIF()
 
 INCLUDE(FindPackageHandleStandardArgs)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(MathGL
-                                  REQUIRED_VARS MATHGL_LIBRARY
-                                                MATHGL_INCLUDE_DIR
-                                  VERSION_VAR MATHGL_VERSION_STRING)
+                                  REQUIRED_VARS MATHGL2_LIBRARY
+                                                MATHGL2_INCLUDE_DIR
+                                  VERSION_VAR MATHGL2_VERSION_STRING)
 
-FOREACH(_Component ${MathGL_FIND_COMPONENTS})
+FOREACH(_Component ${MathGL2_FIND_COMPONENTS})
+  message("FINDING ${_Component}")
   STRING(TOLOWER ${_Component} _component)
   STRING(TOUPPER ${_Component} _COMPONENT)
   
-  SET(MathGL_${_Component}_FIND_REQUIRED ${MathGL_FIND_REQUIRED})
-  SET(MathGL_${_Component}_FIND_QUIETLY true)
+  SET(MathGL2_${_Component}_FIND_REQUIRED ${MathGL2_FIND_REQUIRED})
+  SET(MathGL2_${_Component}_FIND_QUIETLY true)
   
-  FIND_PATH(MATHGL_${_COMPONENT}_INCLUDE_DIR
-            NAMES mgl2/mgl_${_component}.h
-            PATHS ${MATHGL_INCLUDE_DIR} NO_DEFAULT_PATH)
-  FIND_LIBRARY(MATHGL_${_COMPONENT}_LIBRARY
+  FIND_PATH(MATHGL2_${_COMPONENT}_INCLUDE_DIR
+            NAMES mgl2/${_component}.h
+            PATHS ${MATHGL2_INCLUDE_DIR} NO_DEFAULT_PATH)
+  FIND_LIBRARY(MATHGL2_${_COMPONENT}_LIBRARY
                NAMES mgl-${_component}
-               PATHS ${MATHGL_LIBRARY_DIR} NO_DEFAULT_PATH)
+               PATHS ${MATHGL2_LIBRARY_DIR} NO_DEFAULT_PATH)
 
-  FIND_PACKAGE_HANDLE_STANDARD_ARGS(MathGL_${_Component} DEFAULT_MSG
-                                    MATHGL_${_COMPONENT}_LIBRARY
-                                    MATHGL_${_COMPONENT}_INCLUDE_DIR)
+  FIND_PACKAGE_HANDLE_STANDARD_ARGS(MathGL2_${_Component} DEFAULT_MSG
+                                    MATHGL2_${_COMPONENT}_LIBRARY
+                                    MATHGL2_${_COMPONENT}_INCLUDE_DIR)
   
-  IF(MATHGL_${_COMPONENT}_FOUND)
-    SET(MATHGL_LIBRARIES
-        ${MATHGL_LIBRARIES} ${MATHGL_${_COMPONENT}_LIBRARY})
-    SET(MATHGL_INCLUDE_DIRS
-        ${MATHGL_INCLUDE_DIRS} ${MATHGL_${_COMPONENT}_INCLUDE_DIR})
+  IF(MATHGL2_${_COMPONENT}_FOUND)
+    SET(MATHGL2_LIBRARIES
+        ${MATHGL2_LIBRARIES} ${MATHGL2_${_COMPONENT}_LIBRARY})
+    SET(MATHGL2_INCLUDE_DIRS
+        ${MATHGL2_INCLUDE_DIRS} ${MATHGL2_${_COMPONENT}_INCLUDE_DIR})
   ENDIF()
 
-  MARK_AS_ADVANCED(MATHGL_${_COMPONENT}_INCLUDE_DIR
-                   MATHGL_${_COMPONENT}_LIBRARY)
+  MARK_AS_ADVANCED(MATHGL2_${_COMPONENT}_INCLUDE_DIR
+                   MATHGL2_${_COMPONENT}_LIBRARY)
 ENDFOREACH()
 
-MARK_AS_ADVANCED(MATHGL_INCLUDE_DIR MATHGL_LIBRARY)
+MARK_AS_ADVANCED(MATHGL2_INCLUDE_DIR MATHGL2_LIBRARY)
