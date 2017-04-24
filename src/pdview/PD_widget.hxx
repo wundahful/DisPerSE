@@ -56,9 +56,11 @@
 #include <algorithm>
 #include <limits>
 
-#include <mgl2/qt.h>
-#include <mgl2/data.h>
 #include <mgl2/mgl.h>
+#include <mgl2/qt.h>
+#include <mgl2/qmathgl.h>
+#include <mgl2/data.h>
+#include <mgl2/canvas.h>
 
 #include "PD_params.hxx"
 
@@ -325,8 +327,10 @@ private:
   
 protected:
 
+
   mglPoint XY(int x, int y)
   {
+    //auto graph = gr;
     mglPoint pt = graph->CalcXYZ(x,y);
     if ((!p->logX)&&(!p->logY)) return pt;
 
@@ -675,6 +679,8 @@ private:
   bool noUpdates;
   
 public:
+
+  mglCanvas * graph = gr;
   
   void blockUpdates(bool val=true)
   {

@@ -183,7 +183,8 @@ class PDV_interface : public QWidget
     regularQuit=false;
     graphW=new PD_widget(this);
     setWindowTitle(progName);
-    
+    auto graph = graphW->getGraph();
+      
     QToolBar *toolbar = new QToolBar(this);
     //QToolButton *button = new QToolButton(toolbar);
     //button->setIcon(QIcon("/usr/share/easycrypt/icons/create.png"));
@@ -308,8 +309,8 @@ class PDV_interface : public QWidget
     barLayout->addSpacerItem(new QSpacerItem(0,0,QSizePolicy::Expanding,QSizePolicy::Minimum));
     barLayout->addWidget(mousePosLabel);
 
-    graphW->autoResize=true;         
-    graphW->setDraw(PD_draw::Draw,graphW->p);    
+    graphW->autoResize=true;
+    graphW->setDraw(PD_draw::Draw, graphW->p);
   }
 
   ~PDV_interface()

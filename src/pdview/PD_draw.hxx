@@ -61,12 +61,17 @@ private:
   
   
 public:
-  static int Draw(mglGraph *gr, void *par)
+  static int Draw(mglBase *graph, void *par)
   {
+    auto base = graph;
+
     static std::string markOpt[4] = {"b o#", "g s#", "r d#", "p v#"};
     static std::string markOutOpt[4] = {"k o", "k s", "k d", "k v"};
 
     PD_params *p = static_cast<PD_params *>(par);
+
+    mglGraph * gr = p->graph;
+
     //NDnetwork *net = p->net;
     long i;
     //char prm[255];
@@ -81,7 +86,7 @@ public:
     //gr->SetAlphaDef(0.5);
 
     gr->Rotate(0,0);
-    gr->Axis(mglPoint(p->x1,p->y1,1),mglPoint(p->x2,p->y2,1));
+    //gr->Axis(mglPoint(p->x1,p->y1,1), mglPoint(p->x2,p->y2,1));
     gr->SetMarkSize(0.01);
     gr->Box("",false);
     gr->Label('x',p->x_label.c_str(),0);
@@ -94,13 +99,13 @@ public:
 	//printf (" [%ld %ld %ld/%ld]\n",p->Hx.nx,p->Hy.nx,p->H.nx,p->H.ny);
 	//gr->SetPalColor(0,1.0,1.0,1.0);
 
-	gr->CRange(p->H);
-	gr->Dens(p->Hx,p->Hy,p->H,"",-1);	
+	base->CRange(&p->H);
+	gr->Dens(p->Hx,p->Hy,p->H);
 	gr->Colorbar();
 	float level=(p->logH)?(log10(2)/30):(2./30);
 	mglData levs;
 	levs.Set(&level,1);
-	gr->Cont(levs,p->Hx,p->Hy,p->H,"k",-0.99);
+	gr->Cont(levs,p->Hx,p->Hy,p->H);
       }
     /*
     mglData a(50,40);
@@ -114,7 +119,7 @@ public:
       }
     else if (p->logY) gr->SetFunc(0, "lg(y)", 0);
 
-    gr->Axis("xy",true);
+    gr->Axis("xy");
 
 
     

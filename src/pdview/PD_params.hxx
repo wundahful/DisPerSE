@@ -91,6 +91,8 @@ struct PD_params
   mglData *x_data;
   mglData *y_data;
 
+  mglGraph *graph;
+
   int ndims;
   /*
   mglData *x_v_data;
