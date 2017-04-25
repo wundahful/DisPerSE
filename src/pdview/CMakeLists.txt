@@ -1,5 +1,6 @@
 set(C_DIR "${PROJECT_SOURCE_DIR}/src/C/")
 set(MSE_DIR "${PROJECT_SOURCE_DIR}/src/mse/")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -v -stdlib=libstdc++")
 include_directories(${C_DIR})
 include_directories(${MSE_DIR})
 
@@ -48,6 +49,8 @@ if((MATHGL_QT_FOUND AND QT_FOUND) OR (MATHGL2_QT_FOUND AND Qt5Core_FOUND))
   INCLUDE_DIRECTORIES( ${CMAKE_BINARY_DIR})
   
   ADD_EXECUTABLE( pdview ${PDVIEW_SRCS} ${PDVIEW_MOC_SRCS} ${PDVIEW_RC_SRCS} ${PDVIEW_UI_HDRS} )
+
+  target_compile_options( pdview PRIVATE "-stdlib=libstdc++" )
 
   message("${MATHGL_LIBRARIES} or ${MATHGL2_LIBRARIES}")
   TARGET_LINK_LIBRARIES( pdview
