@@ -1,10 +1,11 @@
 set(C_DIR "${PROJECT_SOURCE_DIR}/src/C/")
 set(MSE_DIR "${PROJECT_SOURCE_DIR}/src/mse/")
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -v -stdlib=libstdc++")
 include_directories(${C_DIR})
 include_directories(${MSE_DIR})
 
 if((MATHGL_QT_FOUND AND QT_FOUND) OR (MATHGL2_QT_FOUND AND Qt5Core_FOUND))
+  
+  SET( LOCAL_QT5_DIR "${PROJECT_SOURCE_DIR}/..")
   
   SET( PDVIEW_SRCS
     pdview.cpp
@@ -49,16 +50,21 @@ if((MATHGL_QT_FOUND AND QT_FOUND) OR (MATHGL2_QT_FOUND AND Qt5Core_FOUND))
   INCLUDE_DIRECTORIES( ${CMAKE_BINARY_DIR})
   
   ADD_EXECUTABLE( pdview ${PDVIEW_SRCS} ${PDVIEW_MOC_SRCS} ${PDVIEW_RC_SRCS} ${PDVIEW_UI_HDRS} )
-
+  
   target_compile_options( pdview PRIVATE "-stdlib=libstdc++" )
+#  SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -stdlib=libstdc++")
+#  SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu++11")
+#  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+#  SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -std=gnu++11")
 
+ 
   message("${MATHGL_LIBRARIES} or ${MATHGL2_LIBRARIES}")
   TARGET_LINK_LIBRARIES( pdview
     ${MATHGL2_LIBRARIES}
     ${MATHGL_LIBRARIES}
     Qt5::Core
     Qt5::Widgets
-    Qt5::Gui )
+    )
 
 #  if(GSL_FOUND)
 #    target_link_libraries(pdview ${GSL_LIBRARIES})
